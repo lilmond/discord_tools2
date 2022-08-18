@@ -77,7 +77,7 @@ class Distalker(DiscordWebsocket):
         self._running = True
 
         with open(self._logfile, "a") as file:
-            file.write(f"This file was created at: {datenow}\n\n")
+            file.write(f"This file was created on: {datenow}\n\n")
             file.close()
 
         while self._running:
@@ -108,8 +108,8 @@ class Distalker(DiscordWebsocket):
         for text in self.target_texts:
             if text in data:
                 print(log_text)
-                with open(self._logfile, "a", errors="replace") as file:
-                    file.write(log_text)
+                with open(self._logfile, "ab") as file:
+                    file.write(log_text.encode())
                     file.close()
     
     def stop(self):
