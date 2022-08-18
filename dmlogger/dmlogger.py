@@ -152,11 +152,6 @@ class DMLogger(DiscordWebsocket):
                     if not "url" in embed: continue
                     log_text += embed["url"] + "\n"
             
-            print(f"{log_text}\n")
-
-            with open(f"{self.log_folder_path}{channel_id}.txt", "a", errors="replace") as file:
-                file.write(f"{log_text}\n\n")
-                file.close()
         
         elif data["t"] == "MESSAGE_DELETE":
             if not "id" in message: return
@@ -167,11 +162,12 @@ class DMLogger(DiscordWebsocket):
 
             log_text = f"[{current_date}]\n[DELETE/{channel_id}] {message_id}"
 
-            print(f"{log_text}\n")
 
-            with open(f"{self.log_folder_path}{channel_id}.txt", "a", errors="replace") as file:
-                file.write(f"{log_text}\n\n")
-                file.close()
+        print(f"{log_text}\n")
+
+        with open(f"{self.log_folder_path}{channel_id}.txt", "ab") as file:
+            file.write(f"{log_text}\n\n".encode())
+            file.close()
 
     def stop(self):
         self._running = False
